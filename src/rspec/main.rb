@@ -13,6 +13,7 @@ copy_file "templates/.rspec", ".rspec"
 directory "templates/spec", "spec"
 
 after_bundle do
+  run "bundle binstubs rspec-core"
   git add: "."
   git commit: %(-m 'install rspec')
 end
