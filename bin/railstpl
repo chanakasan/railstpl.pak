@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+bin_path=$(realpath "$0")
+root_path=$(dirname "$bin_path")/..
+
+main() {
+  local script_base=$root_path/src
+  local support_base=$root_path/.internal/support
+  local arg1="$1"
+  local arg2="$2"
+  local script=$arg1/$arg2/main.rb
+  local file_1=$script_base/$script
+  try_subcommands
+  validate
+  try_script
+}
+
+validate() {
+  if [ "$(is_rails_dir)" != "true" ]; then
+    echo " must be inside a rails dir"
+    exit 1
+  fi
+}
+
+try_script() {
+  if [ -f $file_1 ]; then
+    rails -I$support_base app:template LOCATION=$file_1
+    exit
+  else
+    echo " script not found: $script"
+    exit 1
+  fi
+}
+
+try_subcommands() {
+  if [ -z $arg1 ]; then
+    echo " usage: railstpl <one> <two>"
+    exit 1
+  elif [ "$arg1" == "list" ]; then
+    list_scripts
+    exit
+  elif [ "$arg1" == "ed" ]; then
+    vscode $root_path
+    exit
+  elif [ "$arg1" == "edit" ]; then
+    vscode $root_path
+    exit
+  elif [ "$arg1" == "new" ]; then
+    vscode $root_path
+    exit
+  fi
+}
+
+is_rails_dir() {
+  local file="$PWD/app/controllers/application_controller.rb"
+  if [ -f $file ]; then
+    echo true
+  else
+    echo false
+  fi
+}
+
+list_scripts() {
+  ls -l $script_base
+}
+
+main "$@"
