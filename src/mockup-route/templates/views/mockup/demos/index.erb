@@ -1,0 +1,18 @@
+<h1 class="mb-2 text-2xl">UI Mockup Demos</h1>
+
+<table class="table">
+  <tr>
+    <th>Demo ID</th>
+    <th></th>
+  </tr>
+  <tbody>
+    <% @list.each do |row| %>
+      <tr>
+        <td><%= row.titlecase %></td>
+        <td>
+          <%= link_to "view", mockup_demo_path(id: row.to_s) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+ </table>
