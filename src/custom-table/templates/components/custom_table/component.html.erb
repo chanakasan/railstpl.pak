@@ -1,0 +1,26 @@
+<%= render BaseElementComponent.new(**system_arguments) do %>
+  <div class="Netto-CustomTable-ScrollContainer">
+    <table class="Netto-CustomTable__Table">
+      <thead>
+        <tr>
+          <% columns.each_with_index do |column, index| %>
+            <th class="Netto-CustomTable__TableHeading">
+              <%= column.title %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @data.each do |row| %>
+          <%= render BaseElementComponent.new(**row_arguments(row)) do %>
+            <% columns.each_with_index do |column, index| %>
+              <%= render_cell(flush: column.flush, **column.system_arguments) do %>
+                <%= column.call(row) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
