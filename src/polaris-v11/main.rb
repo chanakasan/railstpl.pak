@@ -3,11 +3,12 @@ source_paths.unshift(File.dirname(__FILE__))
 run "bundle add polaris_view_components"
 rails_command "polaris_view_components:install"
 
-directory "templates/views/layouts", "app/views/layouts"
-directory "templates/views/shared", "app/views/shared"
+directory "files/layouts/polaris", "app/views/layouts/polaris"
+directory "files/shared/polaris", "app/views/shared/polaris"
+directory "files/examples/polaris", "app/views/examples/polaris"
 
 inject_into_class "app/controllers/application_controller.rb", "ApplicationController" do %Q{
-  layout "polaris_app"
+  layout "polaris/app"
 
 }
 end
